@@ -12,6 +12,7 @@ You, however, have been asked to clean up and secure the Android app itself.
 Thankfully, Kevin Gallagher (KG) reviewed the code and listed the key issues. It’s now your job to implement those changes and get the app ready for release.
 
 ---
+
 ## Part 1: Setting Up Your Environment
 
 ### Step 1: Clone the Repository
@@ -62,7 +63,6 @@ The first emulator launch may take time. Be patient as the virtual device initia
 
 Click the green **Run** (Play) button to build and launch the app in the emulator. Open the **Logcat** tab to view debug messages (from `Log.d()` statements).
 
----
 ## What to Submit (Part 1)
 
 - At least **one signed Git commit**
@@ -77,10 +77,13 @@ If using a self-hosted runner, include:
 - name: Setup Android SDK
   uses: android-actions/setup-android@v2
 ```
+
 Read more in this reference: [Gradle CLI Documentation](https://docs.gradle.org/current/userguide/command_line_interface.html)
+
 ---
+
 ## Part 2: It’s All About Intent
----
+
 ### 2.1 Understanding the Difference
 
 Android uses **Intents** to transition between components or access external apps.
@@ -101,8 +104,6 @@ Answer the following reflection questions (not graded), but **critical for under
    **Hint:** Consider how attackers might take advantage of improperly scoped or overly permissive Intents.
 
 👉 Once you identify the insecure usage, **fix it.**
-
----
 
 ### 2.2 Shutting Out the World
 
@@ -160,6 +161,7 @@ As you dig deeper, you should start to understand:
 - What kind of backend validation is missing
 
 **Hint:** It is a good thing to 'assess' your understanding of the role of client versus server side code in application development!
+
 ---
 
 ## Part 5: Privacy is Important
@@ -213,6 +215,8 @@ git push origin assign4mod1handin
 **DO NOT PUSH THIS TAG UNTIL YOU WANT TO BE GRADED**
 
 There is only one module here!
+
+---
 
 ## Concluding Remarks
 
