@@ -208,7 +208,7 @@ Feel free to start submitting on gradescope to see how you would score. Once you
 To submit this part, push the `assign4mod1handin` tag with the following:
 
 ```commandline
-git tag -a -m "Completed assign4 mod1." assign3mod3handin
+git tag -a -m "Completed assign4 mod1." assign4mod1handin
 git push origin main
 git push origin assign4mod1handin
 ```
