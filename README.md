@@ -2,188 +2,190 @@
 
 ## Introduction
 
-Your organization has decided that they want to make an Android application
-available for students who want to purchase NYU GiftCards. They took the liberty
-of hiring a contractor to create the application, but the code came back less
-useful than desired. Though your boss never told you which contracting company
-was hired, you're pretty sure it as Shoddy Corp's Cut-Rate Contracting. They
-also created a back-end for the application to interact with, but that was given
-to another member of your team at work to fix.
+Your organization has decided to create an Android application for students to purchase NYU GiftCards.
+They hired a contractor to develop it — but the result was, unfortunately, a mess. 
+Though your boss never confirmed which company was hired, you're almost certain it was ShoddyCorp’s Cut-Rate Contracting, a name infamous for poor software practices.
 
-Like previously, it's up to you to fix the messy code and ensure that the
-application works as intended. Luckily, Kevin Gallagher (KG) has gone through
-the code and compiled a list of things that need to change before your company
-is ready to ship the application.
+ShoddyCorp also provided a backend for the application, but that task has been handed off to another teammate.
+You, however, have been asked to clean up and secure the Android app itself.
 
-## Part 1: Setting up Your Environment
+Thankfully, Kevin Gallagher (KG) reviewed the code and listed the key issues. It’s now your job to implement those changes and get the app ready for release.
 
-Like previous assignments, you are required to use the Git VCS. Start by cloning
-this repository onto your machine, as you have done previously.
+---
+## Part 1: Setting Up Your Environment
 
-Next, you will need to install Android Studio at the following link:
+### Step 1: Clone the Repository
+
+Use Git to clone the provided repository, as in previous assignments.
+
+### Step 2: Install Android Studio
+
+Install Android Studio from:
 
 ```
 https://developer.android.com/studio/
 ```
 
-**Unlike previous assignments, we recommend doing this on your Host Machine, not
-a Virtual Machine running Linux.** Android Studio works well for Windows (x86 only), Linux, Mac,
-and Chrome OS, so most of your platforms should be covered. If you have a
-different platform than listed above, we assume you have solutions in place when dealing with mainstream applications. 
+**Important:** Install it on your **host machine**, not a Linux virtual machine. Android Studio works well on Windows (x86 only), Linux, macOS, and Chrome OS.  If you have a
+different platform, we assume you have solutions in place when dealing with mainstream applications. 
 
-We have prepared a visual walkthrough of the setup process on Mac (it should be
-very similar on Linux and Windows), which you can look through [here](https://imgur.com/a/noDTMNj)
+Visual walkthrough (Mac-based, but generally applicable):  
+👉 [Setup guide](https://imgur.com/a/noDTMNj)
 
-After installing Android Studio, you should import the project. You can do this
-from the "Welcome to Android Studio" window by clicking "More Actions" ->
-"Import Project (Gradle, Eclipse ADT, etc.)". This will open up a file chooser
-window. Navigate to the homework repository, and choose the `GiftcardSite`
-folder inside `appsec_hw4`. **Important: don't try to import a different folder; 
-it needs it to be the `GiftcardSite` so that Android Studio will recognize the project
-correctly.** Do not skip over instructions. 
+### Step 3: Import the Project
 
-The project should now load in the IDE. You may see a dialog window that asks if
-you want to "Trust Gradle Project?" - if so, answer yes. Now give the IDE a
-minute or two to go download the project dependencies and set up the build
-system. When it finishes, you should see the file pane on the left side of the
-IDE populated with entries like "app", "manifests", and "Gradle Scripts".
+1. Launch Android Studio
+2. Choose **More Actions → Import Project (Gradle, Eclipse ADT, etc.)**
+3. Navigate to the repository
+4. Select the `GiftcardSite` folder inside `appsec_hw4`
 
-Next, you should set up the Android Emulator. To do this go to:
+✅ **Important:** Only select the `GiftcardSite` folder, or Android Studio will not configure the project correctly.
 
+Accept any prompts (e.g., **Trust Gradle Project**) and let dependencies finish syncing.
+
+### Step 4: Set Up the Android Emulator
+
+1. Go to **Tools → Device Manager**
+2. Click **Create Virtual Device**
+3. Choose **Pixel 3a**
+4. Select the **R system image** (Android 11, API Level 30, x86 ABI, Google Play)
+5. If not downloaded, click **Download**, accept the license, and wait
+6. Keep default settings:
+   - Orientation: Portrait  
+   - Graphics: Automatic  
+   - Device Frame: Enabled  
+7. Click **Finish**
+
+The first emulator launch may take time. Be patient as the virtual device initializes.
+
+### Step 5: Run the Application
+
+Click the green **Run** (Play) button to build and launch the app in the emulator. Open the **Logcat** tab to view debug messages (from `Log.d()` statements).
+
+---
+## What to Submit (Part 1)
+
+- At least **one signed Git commit**
+- Use **GitHub Actions** to automatically check if the project compiles with Gradle
+
+You do **not** need to write tests (but certainly good to do). As a tip: take a look at this CI workflow template:  
+[Android GitHub Actions](https://github.com/actions/starter-workflows/blob/main/ci/android.yml)
+
+If using a self-hosted runner, include:
+
+```yaml
+- name: Setup Android SDK
+  uses: android-actions/setup-android@v2
 ```
-Tools->Device Manager
-```
+Read more in this reference: [Gradle CLI Documentation](https://docs.gradle.org/current/userguide/command_line_interface.html)
+---
+## Part 2: It’s All About Intent
+---
+### 2.1 Understanding the Difference
 
-This will open a new panel. In this panel, you should see a button that says:
+Android uses **Intents** to transition between components or access external apps.
 
-```
-Create virtual device
-```
+Examine:
+- `SecondFragment.kt` (lines 69–73)
+- `ThirdFragment.kt` (lines 68–70)
 
-Click this button. Another window will open asking you to choose a device. We
-tested this application on an emulated Pixel 3a, so we suggest selecting that
-model, then clicking next. It will then ask you to select a system image. We
-recommend downloading the image labeled R, which has an API Level of 30, the
-x86 ABI, and a Target of Android 11.0 (Google Play). You may need to download
-this image before you can use it by clicking the Download link next to the image
-name. This will open a window that will ask you to accept the terms and
-conditions. After you accept, the image will download.
-
-After downloading the image, the Android Virtual Device Manager will ask you to
-name the virtual device and select between Portrait or Landscape. Ensure
-Portrait is selected, leave Graphics at Automatic, and ensure Enable Device
-Frame is checked. Then click on the button labeled Finish.
-
-Note that the first time you run the Android Emulator it will take some time.
-The emulator will set up the device for you, so let it do its work.
-
-After you have created an emulated Android device, you can now build the project
-and launch it in the emulator by pressing the green play button in the Android
-Studio toolbar. The first time you launch the emulator it may take a while to
-start up, but it should eventually appear and then start the app.
-
-While the app is running, you may want to click on the "Run" and "Logcat" tabs
-on the bottom of the IDE to see debug messages printed out by the app from
-`Log.d()`.
-
-## What to submit
-To remain consistent with our other coding assignments, please complete the following:
-* At least one signed git commit
-* Use GitHub Actions to automate testing of your code.
-  You can look at the template [here](https://github.com/actions/starter-workflows/blob/main/ci/android.yml).
-  There is no need to write unit tests (although you can if you want to!).
-  At minimum you must use Gradle to automatically test if your code can compile. 
-* Read this [document](https://docs.gradle.org/current/userguide/command_line_interface.html) to have a better understanding of what Gradle does.
-
-If you are using a self-hosted runner, you might need to add this to your GitHub Actions YAML file
-```
-    - name: Setup Android SDK
-      uses: android-actions/setup-android@v2
-```
-
-## Part 2: It's all about intent
-
-Android uses Intents to move in between parts of
-an application, or to communicate between applications (thus providing
-functionality the app doesn't natively support, like Web browsing).
-
-### Part 2.1: What is the difference?
-Intents, when not handled correctly, can cause problems. Take a look at the code
-on lines 69 to 73 of SecondFragment.kt and lines 68 to 70 of ThirdFragment.kt.
-These are two different ways of handling intents. For this portion of the
-assignment, you should review and answer the following questions for yourself. This will not be collected or graded, but it will help you understand important concepts related to this assignment (hint). 
+Answer the following reflection questions (not graded), but **critical for understanding Android security**.  
+**Hint: It's good to 'assess' your understanding of this content**
 
 1. What are the two types of Intents?
-2. Which of these Intents are (generally) more secure?
-3. What type of Intent is shown on lines 69 to 73 of SecondFragment.kt?
-4. What type of Intent is shown on lines 68 to 70 of ThirdFragment.kt?
-5. Which of these two Intents is the 'proper' way to do an Intent?
-5b. What does 'proper' way even mean? 
+2. Which type is generally more secure?
+3. What type of Intent is used in `SecondFragment.kt`?
+4. What type is used in `ThirdFragment.kt`?
+5. Which Intent is considered the "proper" implementation?
+6. What does "proper" even mean in the context of secure Android development?  
+   **Hint:** Consider how attackers might take advantage of improperly scoped or overly permissive Intents.
 
-As the last question above hinted, one of these two Intents is not correct. Fix the incorrect Intent.
+👉 Once you identify the insecure usage, **fix it.**
 
-## Part 2.2: Shutting out the world
+---
 
-It seems that the developers of the application wanted to allow other applications to use Intents to launch the GiftCard application.
-However, this isn't what your company wants. 
-At this moment, your company does not anticipate a need for other applications to use Intents to launch Activities within the GiftCard application.
+### 2.2 Shutting Out the World
 
-For this part, you should remove the possibility of other applications using Intents to launch activities of your application.
-To do this, changes will need to be made to the AndroidManifest.xml file. Make them. 
+Currently, other apps can launch Activities in the GiftCard app using Intents.
 
-## Part 3: Can you read me out there?
+**This is not desired.** Your company does **not** anticipate the need for any external app to interact with your Activities. They have asked you lock things down!
 
-Communication of data in transit is especially important. If communications are not secured in transit, then network adversaries can read confidential data such as passwords, or modify data in transit without a worry. Unfortunately, the developers of this application did not include any https encryption in calls to the REST API that it is using in the backend. For this part of the application, please secure all communication with the REST API using HTTPS. This modification will require changes to the following files:
+Make the necessary changes to `AndroidManifest.xml` to **prevent external apps from launching any Activities** in your app.
 
-1. SecondFragment.kt
-2. ThirdFragment.kt
-3. CardScrollingActivity.kt
-4. ProductScrollingActivity.kt
-5. UseCard.kt
-6. GetCard.kt
-7. CardRecyclerViewAdapter.kt
-8. RecyclerViewAdapter.kt
-9. Reporter.kt
-10. strings.xml
+**Hint:** Look at `exported` attributes and intent filters.
 
-These changes should not be large. If you find yourself including new libraries, or writing more lines of code instead of just modifying code that already exists, you are likely overthinking the problem. This one is not complicated!
+---
 
-## Part 4: Oops, was that card yours?
+## Part 3: Can You Read Me Out There?
 
-There exists a vulnerability in the REST API that allows users to GiftCards that do not belong to them. Think about why this vulnerability may be occurring, and how it can be fixed. You do not need to submit anything regarding your explanation, but this will help you understand important concepts.
+Right now, this app **does not use HTTPS** to communicate with the backend API — a critical failure.
 
-To get an idea of how the app uses the REST API to invoke the use card functionality, you can look at the following files:
+Your task is to **secure all API communication** by using HTTPS instead of HTTP.
 
-1. UseCard.kt
-2. CardInterface.kt
+Update the following files:
 
-Hints:
+1. `SecondFragment.kt`  
+2. `ThirdFragment.kt`  
+3. `CardScrollingActivity.kt`  
+4. `ProductScrollingActivity.kt`  
+5. `UseCard.kt`  
+6. `GetCard.kt`  
+7. `CardRecyclerViewAdapter.kt`  
+8. `RecyclerViewAdapter.kt`  
+9. `Reporter.kt`  
+10. `strings.xml`
 
-* Think about how the application is telling the server which card to use, and how that may be problematic.
-* You may want to try using `curl` or the Python `requests` library to interact with the API directly.
+**Hint:** This is not a complicated task. You should only be replacing existing strings and modifying URLs — no need for external libraries or major rewrites.
 
-**Note**: You do *not* need to actually fix the vulnerability. In fact, once you understand the vulnerability in detail, you should be able to see why it cannot be fixed just by changing the client-side code. Hint, you need to understand why, you may be asked this at some point. 
+---
+
+## Part 4: Oops, Was That Card Yours?
+
+There is a vulnerability in the REST API that allows users to **use gift cards that don’t belong to them**.
+
+Examine the following files:
+
+1. `UseCard.kt`  
+2. `CardInterface.kt`
+
+**Hint:** Think about how the application is telling the server which card to use. Could that data be manipulated?
+
+Use tools like `curl` or Python’s `requests` to interact directly with the API.
+
+🛑 **You are not required to fix this vulnerability.**
+As you dig deeper, you should start to understand:
+
+- Why this is happening
+- Why **client-side code cannot fix it**
+- What kind of backend validation is missing
+
+**Hint:** It is a good thing to 'assess' your understanding of the role of client versus server side code in application development!
+---
 
 ## Part 5: Privacy is Important
 
-Many modern Android applications collect large amounts of privacy-invasive
-metrics about their users. This is very problematic, since many users carry
-their devices at all times, and are unaware of the implications of granting a
-permission.
+This app unnecessarily collects data about users — a behavior that's **common** in modern mobile apps and deeply problematic. Luckily, you are a champion of privacy rights!
 
-In this section, your goal is to remove all privacy invasive code.
-This is done by removing all metric collecting code, all areas that needlessly interact with sensors, and all permissions that are not needed for the basic functionality of the application (buying, browsing, and using gift cards).
+Remove any functionality that:
 
-You should remove all unnecessary code in (at least) the following files:
+- Collects metrics
+- Uses sensors
+- Requests unnecessary permissions
 
-1. AndroidManifest.xml
-2. UserInfo.kt
-3. CardScrollingActivity.kt
-4. ProductScrollingActivity.kt
+Focus on the following files:
+
+1. `AndroidManifest.xml`
+2. `UserInfo.kt`
+3. `CardScrollingActivity.kt`
+4. `ProductScrollingActivity.kt`
+
+**Hint:** The only permissions this app should request are those strictly needed to buy, browse, and use gift cards.
+
+---
 
 ## What to Submit
 
-The repository should contain all the files of the Android project, write-ups are not required for this assignment, neither is tagging! Do be mindful of space usage as always. 
+The repository should contain all the files of the Android project, write-ups are not required for this assignment! Do be mindful of diskspace usage as always. 
 
 Please **only submit a file called `git_link.txt`** that contains the name of your repository to **Gradescope**.
 
@@ -195,7 +197,32 @@ When you enter your path keep in mind that each semester is different, the above
 
 Remember that <b>Gradescope is not instant</b>. Especially if we have to look into past GitHub action runs. We have a timeout set for 10 minutes, almost all well running code will complete within 5 minutes. Wait for it to complete or timeout before trying to re-run.
 
+---
+
+### Ready for Grading
+
+Feel free to start submitting on gradescope to see how you would score. Once you want to lock in your grade push the `assign4mod1handin` tag with the following:
+
+To submit this part, push the `assign3mod3handin` tag with the following:
+```commandline
+git tag -a -m "Completed assign4 mod1." assign3mod3handin
+git push origin main
+git push origin assign4mod1handin
+```
+**DO NOT PUSH THIS TAG UNTIL YOU WANT TO BE GRADED**
+
+There is only one module here!
+
 ## Concluding Remarks
 
-Despite the fixes you've made, there are almost certainly still many
-bugs lurking in the application, and the overall design of the application could be better done. With enough changes, this application could serve as a decent front-end for a REST API, but that API would also have to be audited.
+Even after your updates, this app remains imperfect. The core design is flawed, and security depends just as much on the server as it does on the client.
+
+Still, you’ve taken an important step forward. This assignment teaches you:
+- Secure Android development
+- Intent misuse
+- Insecure data transmission
+- Broken access control models
+- Privacy-respecting app design
+
+And yes — we will be asking you follow-up questions on this!
+---
