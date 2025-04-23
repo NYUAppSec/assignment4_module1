@@ -230,4 +230,3 @@ Still, you’ve taken an important step forward. This assignment teaches you:
 - Privacy-respecting app design
 
 And yes — we will be asking you follow-up questions on this!
----
