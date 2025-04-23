@@ -37,7 +37,7 @@ Visual walkthrough (Mac-based, but generally applicable):
 1. Launch Android Studio
 2. Choose **More Actions → Import Project (Gradle, Eclipse ADT, etc.)**
 3. Navigate to the repository
-4. Select the `GiftcardSite` folder inside `appsec_hw4`
+4. Select the `GiftcardSite` folder inside the repository you cloned. 
 
 ✅ **Important:** Only select the `GiftcardSite` folder, or Android Studio will not configure the project correctly.
 
@@ -203,7 +203,8 @@ Remember that <b>Gradescope is not instant</b>. Especially if we have to look in
 
 Feel free to start submitting on gradescope to see how you would score. Once you want to lock in your grade push the `assign4mod1handin` tag with the following:
 
-To submit this part, push the `assign3mod3handin` tag with the following:
+To submit this part, push the `assign4mod1handin` tag with the following:
+
 ```commandline
 git tag -a -m "Completed assign4 mod1." assign3mod3handin
 git push origin main
