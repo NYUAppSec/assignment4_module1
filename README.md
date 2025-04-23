@@ -1,14 +1,4 @@
-# Homework 4: Mobile Mess
-
-## Get Latest Updates
-Use the following commands to pull the latest updates.
-
-```bash
-git remote add upstream https://github.com/NYUAppSec/appsec_hw4
-git fetch upstream
-git merge upstream/main --allow-unrelated-histories
-git push
-```
+# Assignment 4 - Module 1: Mobile Mess
 
 ## Introduction
 
@@ -37,9 +27,9 @@ https://developer.android.com/studio/
 ```
 
 **Unlike previous assignments, we recommend doing this on your Host Machine, not
-a Virtual Machine running Linux.** Android studio works for Windows, Linux, Mac,
+a Virtual Machine running Linux.** Android Studio works well for Windows (x86 only), Linux, Mac,
 and Chrome OS, so most of your platforms should be covered. If you have a
-different platform than listed above, please reach out to your instructor or CA.
+different platform than listed above, we assume you have solutions in place when dealing with mainstream applications. 
 
 We have prepared a visual walkthrough of the setup process on Mac (it should be
 very similar on Linux and Windows), which you can look through [here](https://imgur.com/a/noDTMNj)
@@ -50,7 +40,7 @@ from the "Welcome to Android Studio" window by clicking "More Actions" ->
 window. Navigate to the homework repository, and choose the `GiftcardSite`
 folder inside `appsec_hw4`. **Important: don't try to import a different folder; 
 it needs it to be the `GiftcardSite` so that Android Studio will recognize the project
-correctly.**
+correctly.** Do not skip over instructions. 
 
 The project should now load in the IDE. You may see a dialog window that asks if
 you want to "Trust Gradle Project?" - if so, answer yes. Now give the IDE a
@@ -102,7 +92,7 @@ To remain consistent with our other coding assignments, please complete the foll
 * Use GitHub Actions to automate testing of your code.
   You can look at the template [here](https://github.com/actions/starter-workflows/blob/main/ci/android.yml).
   There is no need to write unit tests (although you can if you want to!).
-  But I expect at a minimum to use Gradle to automatically test if your code can compile. 
+  At minimum you must use Gradle to automatically test if your code can compile. 
 * Read this [document](https://docs.gradle.org/current/userguide/command_line_interface.html) to have a better understanding of what Gradle does.
 
 If you are using a self-hosted runner, you might need to add this to your GitHub Actions YAML file
@@ -111,49 +101,35 @@ If you are using a self-hosted runner, you might need to add this to your GitHub
       uses: android-actions/setup-android@v2
 ```
 
-### Submission
-If you’d like to submit this part, push the `hw4p1handin` tag with the following:
-
-    git tag -a -m "Completed hw4 part1." hw4p1handin
-    git push origin main
-    git push origin hw4p1handin
-
 ## Part 2: It's all about intent
 
-As you may remember from class, Android uses Intents to move in between parts of
+Android uses Intents to move in between parts of
 an application, or to communicate between applications (thus providing
-functionality the app doesn't naively support, like Web browsing).
+functionality the app doesn't natively support, like Web browsing).
 
 ### Part 2.1: What is the difference?
 Intents, when not handled correctly, can cause problems. Take a look at the code
 on lines 69 to 73 of SecondFragment.kt and lines 68 to 70 of ThirdFragment.kt.
 These are two different ways of handling intents. For this portion of the
-assignment, you should review and answer the following questions for yourself. This will not be collected or graded, but it will help you understand important concepts related to this assignment.
+assignment, you should review and answer the following questions for yourself. This will not be collected or graded, but it will help you understand important concepts related to this assignment (hint). 
 
 1. What are the two types of Intents?
 2. Which of these Intents are (generally) more secure?
 3. What type of Intent is shown on lines 69 to 73 of SecondFragment.kt?
 4. What type of Intent is shown on lines 68 to 70 of ThirdFragment.kt?
-5. Which of these two Intents is the proper way to do an Intent?
+5. Which of these two Intents is the 'proper' way to do an Intent?
+5b. What does 'proper' way even mean? 
 
-As the last question above hinted, one of these two Intents is not correct.
-Fix the incorrect Intent.
+As the last question above hinted, one of these two Intents is not correct. Fix the incorrect Intent.
 
 ## Part 2.2: Shutting out the world
+
 It seems that the developers of the application wanted to allow other applications to use Intents to launch the GiftCard application.
 However, this isn't what your company wants. 
 At this moment, your company does not anticipate a need for other applications to use Intents to launch Activities within the GiftCard application.
 
-For this part, you should remove the possibility of other applications using 
-Intents to launch activities of your application.
-To do this, changes will need to be made to the AndroidManifest.xml file.
-
-### Submission
-If you’d like to submit this part, push the `hw4p2handin` tag with the following:
-
-    git tag -a -m "Completed hw4 part2." hw4p2handin
-    git push origin main
-    git push origin hw4p2handin
+For this part, you should remove the possibility of other applications using Intents to launch activities of your application.
+To do this, changes will need to be made to the AndroidManifest.xml file. Make them. 
 
 ## Part 3: Can you read me out there?
 
@@ -172,19 +148,11 @@ Communication of data in transit is especially important. If communications are 
 
 These changes should not be large. If you find yourself including new libraries, or writing more lines of code instead of just modifying code that already exists, you are likely overthinking the problem. This one is not complicated!
 
-### Submission
-If you’d like to submit this part, push the `hw4p3handin` tag with the following:
-
-    git tag -a -m "Completed hw4 part3." hw4p3handin
-    git push origin main
-    git push origin hw4p3handin
-
 ## Part 4: Oops, was that card yours?
 
 There exists a vulnerability in the REST API that allows users to GiftCards that do not belong to them. Think about why this vulnerability may be occurring, and how it can be fixed. You do not need to submit anything regarding your explanation, but this will help you understand important concepts.
 
-To get an idea of how the app uses the REST API to invoke the use card
-functionality, you can look at the following files:
+To get an idea of how the app uses the REST API to invoke the use card functionality, you can look at the following files:
 
 1. UseCard.kt
 2. CardInterface.kt
@@ -192,13 +160,9 @@ functionality, you can look at the following files:
 Hints:
 
 * Think about how the application is telling the server which card to use, and how that may be problematic.
-* You may want to try using `curl` (demoed in class) or the Python `requests` library to interact with the API directly.
+* You may want to try using `curl` or the Python `requests` library to interact with the API directly.
 
-**Note**: You do *not* need to actually fix the vulnerability. In fact, once you understand the vulnerability in detail, you should be able to see why it cannot be fixed just by changing the client-side code.
-
-### Submission
-You do not need to submit anything for this portion of the assignment.
-
+**Note**: You do *not* need to actually fix the vulnerability. In fact, once you understand the vulnerability in detail, you should be able to see why it cannot be fixed just by changing the client-side code. Hint, you need to understand why, you may be asked this at some point. 
 
 ## Part 5: Privacy is Important
 
@@ -217,53 +181,19 @@ You should remove all unnecessary code in (at least) the following files:
 3. CardScrollingActivity.kt
 4. ProductScrollingActivity.kt
 
-### Submission
-If you’d like to submit this part, push the `hw4p5handin` tag with the following:
-
-    git tag -a -m "Completed hw4 part5." hw4p5handin
-    git push origin main
-    git push origin hw4p5handin
-
-## Grading
-
-Total points: 100
-
-Part 1 is worth 10 points:
-
-* 5 points for at least one signed git commit
-* 5 points for using GitHub actions to confirm the Android code can compile
-
-Part 2 is worth 25 points:
-
-* 10 points for fixing the correct intent.
-* 15 points for correcting the Manifest.
-
-Part 3 is worth 20 points:
-
-* 2 points for each file correctly modified to use HTTPS.
-
-Part 4 is worth 0 points:
-
-* identify the cause of the vulnerability.
-* think about a potential solution.
-
-Part 5 is worth 45 points:
-
-* 15 points for removing unneeded permissions.
-* 15 points for removing metric collection API calls.
-* 15 points for removing interaction with sensors.
-
 ## What to Submit
 
-The repository should contain all the files of the Android project, write-ups are not required for this assignment.
+The repository should contain all the files of the Android project, write-ups are not required for this assignment, neither is tagging! Do be mindful of space usage as always. 
 
-To submit your code, please submit a file called `git_link.txt` that contains the name of your repository. 
-For example, if your GitHub account username is exampleaccount, you would submit a text file named `git_link.txt` to 
-Gradescope with only one line that reads the following:
+Please **only submit a file called `git_link.txt`** that contains the name of your repository to **Gradescope**.
 
-    appsec-homework-4-exampleaccount
+For example, if your repo is located at 'h<span>ttps:</span>//github.com/NYUAppSec__/assignment-4-module-1-exampleaccount', you would submit a text file named `git_link.txt` with one single line that contains <ins><b>only</b></ins> the following:
 
-The auto-grader will automatically find your code and download it.
+    assignment-4-module-1-exampleaccount
+
+When you enter your path keep in mind that each semester is different, the above is just an example. Pay attention to your specific repo path.
+
+Remember that <b>Gradescope is not instant</b>. Especially if we have to look into past GitHub action runs. We have a timeout set for 10 minutes, almost all well running code will complete within 5 minutes. Wait for it to complete or timeout before trying to re-run.
 
 ## Concluding Remarks
 
