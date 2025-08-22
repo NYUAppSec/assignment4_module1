@@ -216,6 +216,10 @@ git push origin assign4mod1handin
 
 There is only one module here!
 
+| ⚠️ **Use the NYU self-hosted runner** |
+|---|
+| To receive credit, your workflow (if you have one) **must run on our NYU self-hosted runner**. Using GitHub-hosted runners (e.g., `ubuntu-latest`) may incur charges and will earn a **zero**.<br><br>**✅ Correct:** `runs-on: self-hosted`<br>**❌ Do NOT use:** `runs-on: ubuntu-latest`<br><br>**Quick check:** In the job details, the **Runner** must show `self-hosted`. |
+
 ---
 
 ## Concluding Remarks
