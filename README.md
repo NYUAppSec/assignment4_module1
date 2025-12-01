@@ -71,7 +71,7 @@ Click the green **Run** (Play) button to build and launch the app in the emulato
 You do **not** need to write tests (but certainly good to do). As a tip: take a look at this CI workflow template:  
 [Android GitHub Actions](https://github.com/actions/starter-workflows/blob/main/ci/android.yml)
 
-If using a self-hosted runner, include:
+Since we are using a self-hosted runner, include:
 
 ```yaml
 - name: Setup Android SDK
@@ -136,7 +136,7 @@ Update the following files:
 9. `Reporter.kt`  
 10. `strings.xml`
 
-**Hint:** This is not a complicated task. You should only be replacing existing strings and modifying URLs — no need for external libraries or major rewrites.
+**Hint:** This is not a complicated task. You should only be replacing existing strings and modifying URLs — no need for external libraries or major rewrites. Don't over think, focus on the task at hand!
 
 ---
 
@@ -160,7 +160,7 @@ As you dig deeper, you should start to understand:
 - Why **client-side code cannot fix it**
 - What kind of backend validation is missing
 
-**Hint:** It is a good thing to 'assess' your understanding of the role of client versus server side code in application development!
+**Hint:** It is a good thing to 'assess' your understanding of the role of client versus server side code in application development! We will be testing this understanding in the Assessment. 
 
 ---
 
